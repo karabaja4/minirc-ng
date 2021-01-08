@@ -25,14 +25,14 @@ pkgver() {
 package() {
   cd ${_gitname}
 
-  install -Dm755 src/rc "${pkgdir}/usr/bin/rc"
-  install -Dm755 src/minirc.local "${pkgdir}/etc/minirc.local"
-  install -Dm755 src/minirc.local.shutdown "${pkgdir}/etc/minirc.local.shutdown"
-  install -Dm644 src/minirc.json "${pkgdir}/etc/minirc.json"
-  install -Dm644 src/inittab "${pkgdir}/etc/inittab"
+  install -Dm755 "src/rc" "${pkgdir}/usr/bin/rc"
+  install -Dm755 "src/minirc.local" "${pkgdir}/etc/minirc.local"
+  install -Dm755 "src/minirc.local.shutdown" "${pkgdir}/etc/minirc.local.shutdown"
+  install -Dm644 "src/minirc.json" "${pkgdir}/etc/minirc.json"
+  install -Dm644 "src/inittab" "${pkgdir}/etc/inittab"
 
   for i in init halt poweroff reboot
   do
-      ln -sf /usr/bin/busybox "${pkgdir}/usr/bin/${i}"
+      ln -sf "/usr/bin/busybox" "${pkgdir}/usr/bin/${i}"
   done
 }
