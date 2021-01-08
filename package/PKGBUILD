@@ -3,9 +3,9 @@
 
 _gitname=minirc-ng
 pkgname=${_gitname}-git
-pkgver=136.904818b
+pkgver=0.3.bde56ee
 pkgrel=1
-pkgdesc="Minimalistic init script"
+pkgdesc="Minimalistic init script (ng)"
 arch=('any')
 url="https://github.com/karabaja4/${_gitname}"
 license=('GPL2')
@@ -21,7 +21,6 @@ pkgver() {
   cd "${_gitname}"
   echo "0.1.$(git rev-parse --short HEAD)"
 }
-
 
 package() {
   cd ${_gitname}
