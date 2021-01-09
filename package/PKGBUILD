@@ -3,7 +3,7 @@
 
 _gitname=minirc-ng
 pkgname=${_gitname}-git
-pkgver=0.3.558f2ac
+pkgver=558f2ac
 pkgrel=1
 pkgdesc="Minimalistic init script (ng)"
 arch=('any')
@@ -13,13 +13,13 @@ depends=('busybox' 'bash' 'jq')
 makedepends=('git')
 optdepends=('systemd: udev implementation')
 conflicts=('systemd-sysvcompat' 'sysvinit')
-backup=('etc/minirc.json')
+backup=('etc/minirc.json' 'etc/minirc.local' 'etc/minirc.local.shutdown')
 source=("git://github.com/karabaja4/${_gitname}.git")
 md5sums=('SKIP')
 
 pkgver() {
   cd "${_gitname}"
-  echo "0.3.$(git rev-parse --short HEAD)"
+  git rev-parse --short HEAD
 }
 
 package() {
