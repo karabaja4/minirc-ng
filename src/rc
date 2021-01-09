@@ -77,7 +77,14 @@ _daemon_poll() {
     test -f "${_pidfile}" && ps -p "$(cat "${_pidfile}")" &> /dev/null
 }
 
+_clear_tmp() {
+    echo "clearing /tmp..."
+    rm -rf /tmp/{*,.*} &> /dev/null
+}
+
 _on_boot() {
+    _clear_tmp
+    
     echo "Creating PID dir..."
     mkdir -p "${_piddir}"
     chmod 777 "${_piddir}"
@@ -140,6 +147,8 @@ _on_shutdown() {
 
     echo "shutting down udev..."
     killall -q -w systemd-udevd
+
+    _clear_tmp
 
     echo "unmounting API filesystem..."
     umount -r /run
