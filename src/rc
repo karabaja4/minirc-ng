@@ -78,7 +78,7 @@ _daemon_poll() {
 }
 
 _clear_tmp() {
-    echo "clearing /tmp..."
+    echo "Clearing /tmp..."
     rm -rf /tmp/{*,.*} &> /dev/null
 }
 
@@ -89,7 +89,7 @@ _on_boot() {
     mkdir -p "${_piddir}"
     chmod 777 "${_piddir}"
 
-    echo "mounting API filesystem..."
+    echo "Mounting API filesystem..."
     mountpoint -q /proc    || mount -t proc proc /proc -o nosuid,noexec,nodev
     mountpoint -q /sys     || mount -t sysfs sys /sys -o nosuid,noexec,nodev
     mountpoint -q /run     || mount -t tmpfs run /run -o mode=0755,nosuid,nodev
@@ -98,34 +98,34 @@ _on_boot() {
     mountpoint -q /dev/pts || mount -t devpts devpts /dev/pts -o mode=0620,gid=5,nosuid,noexec
     mountpoint -q /dev/shm || mount -t tmpfs shm /dev/shm -o mode=1777,nosuid,nodev
 
-    echo "setting up loopback device..."
+    echo "Setting up loopback device..."
     /usr/sbin/ip link set up dev lo
 
-    echo "initializing udev..."
+    echo "Initializing udev..."
     /usr/lib/systemd/systemd-udevd --daemon
     /usr/bin/udevadm trigger --action=add --type=subsystems
     /usr/bin/udevadm trigger --action=add --type=devices
 
-    echo "setting hostname..."
+    echo "Setting hostname..."
     cat /etc/hostname >| /proc/sys/kernel/hostname
 
-    echo "creating symlinks..."
+    echo "Creating symlinks..."
     ln -s /proc/kcore /dev/core
     ln -s /proc/self/fd /dev/fd
     ln -s /proc/self/fd/0 /dev/stdin
     ln -s /proc/self/fd/1 /dev/stdout
     ln -s /proc/self/fd/2 /dev/stderr
 
-    echo "mounting fstab..."
+    echo "Mounting fstab..."
     mount -a
 
     if [ -x /etc/minirc.local ]
     then
-        echo "loading /etc/minirc.local..."
+        echo "Loading /etc/minirc.local..."
         /etc/minirc.local
     fi
 
-    echo "starting daemons..."
+    echo "Starting daemons..."
     for dmn in "${_enabled[@]}"
     do
         _daemon_start "${dmn}"
@@ -133,7 +133,7 @@ _on_boot() {
 }
 
 _on_shutdown() {
-    echo "stopping daemons..."
+    echo "Stopping daemons..."
     for dmn in "${_daemons[@]}"
     do
         _daemon_poll "${dmn}" && _daemon_stop "${dmn}"
@@ -141,16 +141,16 @@ _on_shutdown() {
 
     if [ -x /etc/minirc.local.shutdown ]
     then
-        echo "loading /etc/minirc.local.shutdown..."
+        echo "Loading /etc/minirc.local.shutdown..."
         /etc/minirc.local.shutdown
     fi
 
-    echo "shutting down udev..."
+    echo "Shutting down udev..."
     killall -q -w systemd-udevd
 
     _clear_tmp
 
-    echo "unmounting API filesystem..."
+    echo "Unmounting API filesystem..."
     umount -r /run
 }
 
