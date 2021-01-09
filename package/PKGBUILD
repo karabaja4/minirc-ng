@@ -3,7 +3,7 @@
 
 _gitname=minirc-ng
 pkgname=${_gitname}-git
-pkgver=558f2ac
+pkgver=0.3.558f2ac
 pkgrel=1
 pkgdesc="Minimalistic init script (ng)"
 arch=('any')
@@ -19,7 +19,7 @@ md5sums=('SKIP')
 
 pkgver() {
   cd "${_gitname}"
-  git rev-parse --short HEAD
+  echo "0.3.$(git rev-parse --short HEAD)"
 }
 
 package() {
