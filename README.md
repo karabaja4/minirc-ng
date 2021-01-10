@@ -1,6 +1,6 @@
 # minirc-ng
 
-An init system based on busybox.
+An init system based on Busybox.
 
 Forked from [minirc](https://github.com/hut/minirc), please checkout the README of the original project.
 
