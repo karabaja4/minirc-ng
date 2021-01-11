@@ -9,5 +9,6 @@ This fork adds support for service PIDs, running services as (non) root, and a s
 There is a PKGBUILD for Arch Linux in the `package` folder.
 
 Example usage:
-
+\
+\
 ![Alt text](https://isaricblob.blob.core.windows.net/github/minirc2.png)
