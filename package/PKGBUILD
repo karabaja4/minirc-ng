@@ -4,7 +4,7 @@
 _gitname=minirc-ng
 _version=0.3
 pkgname=${_gitname}-git
-pkgver=0.3.0e20fa9
+pkgver=0.3.bb322ec
 pkgrel=1
 pkgdesc="Minimalistic init script (ng)"
 arch=('any')
