@@ -11,4 +11,4 @@ There is a PKGBUILD for Arch Linux in the `package` folder.
 Example usage:
 \
 \
-![Alt text](https://isaricblob.blob.core.windows.net/github/minirc2.png)
+![Alt text](https://user-images.githubusercontent.com/1043015/118578492-81727b00-b78c-11eb-977e-b2537c0bee3d.png)
