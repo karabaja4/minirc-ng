@@ -2,9 +2,9 @@
 # shellcheck disable=SC2181,SC2148,SC2034,SC2164,SC2154
 
 _gitname=minirc-ng
-_version=0.4
+_version=0.5
 pkgname=${_gitname}-git
-pkgver=0.4.bb322ec
+pkgver=0.5.bb322ec
 pkgrel=1
 pkgdesc="Minimalistic init script (ng)"
 arch=('any')
