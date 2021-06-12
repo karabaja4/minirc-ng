@@ -11,4 +11,4 @@ There is a PKGBUILD for Arch Linux in the `package` folder.
 Example usage:
 \
 \
-![2021-06-13_01-47](https://user-images.githubusercontent.com/1043015/121791360-54798280-cbe9-11eb-8183-6a30d19c93c3.png)
+![Alt text](https://user-images.githubusercontent.com/1043015/121791360-54798280-cbe9-11eb-8183-6a30d19c93c3.png)
