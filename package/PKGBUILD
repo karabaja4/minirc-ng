@@ -2,7 +2,7 @@
 # shellcheck disable=SC2181,SC2148,SC2034,SC2164,SC2154
 
 _gitname=minirc-ng
-_version=0.8
+_version=0.9
 pkgname=${_gitname}-git
 pkgver=${_version}.ad0b0d0
 pkgrel=1
