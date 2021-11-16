@@ -5,7 +5,7 @@ _echo() {
     printf '%s\n' "${1}"
 }
 
-_echo "minirc-ng @ 0.9 (${0} @ $(readlink /proc/$$/exe))"
+_echo "minirc-ng @ 1.0 (${0} @ $(readlink /proc/$$/exe))"
 
 _piddir="/tmp/minirc"
 _config="/etc/minirc.json"
@@ -19,7 +19,7 @@ _get_enabled() {
     jq -crM '.[] | select(.enabled==true) | .name' ${_config}
 }
 
-_get_single() {
+_get_field() {
     jq -crM --arg name "${1}" ".[] | select(.name==\$name) | .${2}" ${_config}
 }
 
@@ -38,8 +38,8 @@ _daemon_start() (
         _echo "Error: ${_pidfile} exists"
     else
 
-        _user="$(_get_single "${1}" "user")"
-        _command="$(_get_single "${1}" "command")"
+        _user="$(_get_field "${1}" "user")"
+        _command="$(_get_field "${1}" "command")"
         if [ -z "${_user}" ] || [ -z "${_command}" ]
         then
             _echo "Error: unknown service: ${1}"
@@ -113,6 +113,7 @@ _on_init() (
 
     _echo "Mounting fstab..."
     mount -a
+    mount -o remount,rw /
 
     if [ -x /etc/minirc.local ]
     then

@@ -1,38 +1,38 @@
 [
-	{
-		"name": "dhcpcd",
-		"enabled": false,
-		"user": "root",
-		"command": "/usr/bin/dhcpcd -4 -n -B -z wlan0"
-	},
-	{
-		"name": "sshd",
-		"enabled": false,
-		"user": "root",
-		"command": "/usr/bin/sshd -D -e"
-	},
-	{
-		"name": "ntpd",
-		"enabled": false,
-		"user": "root",
-		"command": "/usr/bin/ntpd -n -g -u ntp"
-	},
-	{
-		"name": "haveged",
-		"enabled": false,
-		"user": "root",
-		"command": "/usr/bin/haveged -w 1024 -v 1 --Foreground"
-	},
-	{
-		"name": "cron",
-		"enabled": false,
-		"user": "root",
-		"command": "/usr/bin/crond -n"
-	},
-	{
-		"name": "syslog",
-		"enabled": false,
-		"user": "root",
-		"command": "/usr/bin/syslog-ng -F"
-	}
+    {
+        "name": "dhcpcd",
+        "enabled": true,
+        "user": "root",
+        "command": "/usr/bin/dhcpcd -4 -n -B -z eth0"
+    },
+    {
+        "name": "sshd",
+        "enabled": true,
+        "user": "root",
+        "command": "/usr/bin/sshd -D -e"
+    },
+    {
+        "name": "ntpd",
+        "enabled": true,
+        "user": "root",
+        "command": "/usr/bin/ntpd -n -g -u ntp"
+    },
+    {
+        "name": "haveged",
+        "enabled": true,
+        "user": "root",
+        "command": "/usr/bin/haveged -w 1024 -v 1 --Foreground"
+    },
+    {
+        "name": "cron",
+        "enabled": true,
+        "user": "root",
+        "command": "/usr/bin/crond -n"
+    },
+    {
+        "name": "syslog",
+        "enabled": false,
+        "user": "root",
+        "command": "/usr/bin/syslog-ng -F"
+    }
 ]
