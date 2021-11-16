@@ -3,4 +3,4 @@
 # add startup commands here
 
 echo 0 > /proc/sys/kernel/printk
-touch /var/run/utmp
+

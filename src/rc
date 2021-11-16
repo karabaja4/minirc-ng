@@ -5,17 +5,17 @@ _echo() {
     printf '%s\n' "${1}"
 }
 
-_echo "minirc-ng @ 1.0 (${0})"
+_echo "minirc-ng @ 1.1 (${0})"
 
 _piddir="/tmp/minirc"
 _config="/etc/minirc.json"
 
 # load config
-_get_daemons() {
+_get_all_daemons() {
     jq -crM '.[] | .name' ${_config}
 }
 
-_get_enabled() {
+_get_enabled_daemons() {
     jq -crM '.[] | select(.enabled==true) | .name' ${_config}
 }
 
@@ -115,6 +115,9 @@ _on_init() (
     mount -a
     mount -o remount,rw /
 
+    _echo "Creating utmp..."
+    touch /var/run/utmp
+
     if [ -x /etc/minirc.local ]
     then
         _echo "Loading /etc/minirc.local..."
@@ -122,7 +125,7 @@ _on_init() (
     fi
 
     _echo "Starting daemons..."
-    for dmn in $(_get_enabled)
+    for dmn in $(_get_enabled_daemons)
     do
         _daemon_start "${dmn}"
     done
@@ -131,7 +134,7 @@ _on_init() (
 _on_shutdown() (
 
     _echo "Stopping daemons..."
-    for dmn in $(_get_daemons)
+    for dmn in $(_get_all_daemons)
     do
         _daemon_poll "${dmn}" && _daemon_stop "${dmn}"
     done
@@ -186,7 +189,7 @@ start|stop|restart)
     ;;
 list)
     [ "${#}" -ne 1 ] && _usage
-    for dmn in $(_get_daemons)
+    for dmn in $(_get_all_daemons)
     do
         if _daemon_poll "${dmn}"
         then
