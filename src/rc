@@ -97,7 +97,7 @@ _on_init() (
     /usr/bin/udevadm trigger --action=add --type=devices
 
     _echo "Setting hostname..."
-    cat /etc/hostname >| /proc/sys/kernel/hostname
+    cat /etc/hostname > /proc/sys/kernel/hostname
 
     _echo "Creating symlinks..."
     ln -s /proc/kcore /dev/core
