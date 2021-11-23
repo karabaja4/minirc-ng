@@ -18,6 +18,11 @@ backup=('etc/minirc.json' 'etc/minirc.local' 'etc/minirc.local.shutdown')
 source=("git://github.com/karabaja4/${_gitname}.git")
 md5sums=('SKIP')
 
+prepare() {
+  cd "${_gitname}"
+  sed -i "8s/${_gitname}/${_gitname} @ ${_version}.$(git rev-parse --short HEAD)/g" "src/rc"
+}
+
 pkgver() {
   cd "${_gitname}"
   echo "${_version}.$(git rev-parse --short HEAD)"
