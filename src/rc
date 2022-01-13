@@ -150,7 +150,7 @@ _on_shutdown() (
     killall -q -w systemd-udevd
 
     _echo "Unmounting API filesystem..."
-    umount -r /run
+    umount -v -r /run
 )
 
 _daemon_restart() {

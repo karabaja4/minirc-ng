@@ -30,5 +30,5 @@ tty4::respawn:/sbin/agetty -8 -s 38400 tty4 linux
 
 # Unmount everything on shutdown
 ::shutdown:echo :: unmounting everything
-::shutdown:/bin/umount -a -r
+::shutdown:/bin/umount -v -a -r
 ::shutdown:/bin/swapoff -a
