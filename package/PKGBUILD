@@ -29,7 +29,7 @@ pkgver() {
 }
 
 package() {
-  cd ${_gitname}
+  cd "${_gitname}"
 
   install -Dm755 "src/rc" "${pkgdir}/usr/bin/rc"
   install -Dm755 "src/minirc.local" "${pkgdir}/etc/minirc.local"
