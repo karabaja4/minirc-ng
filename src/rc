@@ -118,7 +118,7 @@ _on_init() (
     mount -o remount,rw /
 
     _echo "Creating utmp..."
-    touch /var/run/utmp
+    install -m 664 -o root -g utmp /dev/null /var/run/utmp
 
     if [ -x /etc/minirc.local ]
     then
