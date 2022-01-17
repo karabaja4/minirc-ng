@@ -109,9 +109,7 @@ _on_init() (
     ln -s /proc/self/fd/2 /dev/stderr
 
     _echo "Creating PID dir..."
-    rm -rf "${_piddir}"
-    mkdir -p "${_piddir}"
-    chmod 755 "${_piddir}"
+    install -m 755 -o root -g root -d "${_piddir}"
 
     _echo "Mounting fstab..."
     mount -a
