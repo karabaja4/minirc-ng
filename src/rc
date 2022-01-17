@@ -96,6 +96,7 @@ _on_init() (
     /usr/lib/systemd/systemd-udevd --daemon
     /usr/bin/udevadm trigger --action=add --type=subsystems
     /usr/bin/udevadm trigger --action=add --type=devices
+    /usr/bin/udevadm settle
 
     _echo "Setting hostname..."
     cat /etc/hostname >| /proc/sys/kernel/hostname
