@@ -33,7 +33,7 @@ _daemon_start() (
 
     _pidfile="${_piddir}/${1}.pid"
     _echo "Starting ${1}..."
-    
+
     if _daemon_poll "${1}"
     then
         _echo "Error: ${_pidfile} exists"
