@@ -6,7 +6,7 @@ Forked from [minirc](https://github.com/hut/minirc), please checkout the README 
 
 This fork adds support for service PIDs, running services as a regular user, and a single [JSON configuration file](https://github.com/karabaja4/minirc-ng/blob/master/src/minirc.json).
 
-There is a PKGBUILD for Arch Linux in the `package` folder.
+There is a [AUR Package](https://aur.archlinux.org/packages/minirc-ng-git) for Arch Linux.
 
 Example usage:
 \
