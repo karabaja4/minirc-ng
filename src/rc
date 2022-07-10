@@ -125,18 +125,18 @@ _on_init() (
     fi
 
     _echo "Starting daemons..."
-    for dmn in $(_get_enabled_daemons)
+    for _dmn in $(_get_enabled_daemons)
     do
-        _daemon_start "${dmn}"
+        _daemon_start "${_dmn}"
     done
 )
 
 _on_shutdown() (
 
     _echo "Stopping daemons..."
-    for dmn in $(_get_all_daemons)
+    for _dmn in $(_get_all_daemons)
     do
-        _daemon_poll "${dmn}" && _daemon_stop "${dmn}"
+        _daemon_poll "${_dmn}" && _daemon_stop "${_dmn}"
     done
 
     if [ -x /etc/minirc.local.shutdown ]
@@ -189,13 +189,13 @@ start|stop|restart)
     ;;
 list)
     [ "${#}" -ne 1 ] && _usage
-    for dmn in $(_get_all_daemons)
+    for _dmn in $(_get_all_daemons)
     do
-        if _daemon_poll "${dmn}"
+        if _daemon_poll "${_dmn}"
         then
-            printf '[\033[32mX\033[0m] %s\n' "${dmn}"
+            printf '[\033[32mX\033[0m] %s\n' "${_dmn}"
         else
-            _echo "[ ] ${dmn}"
+            _echo "[ ] ${_dmn}"
         fi
     done
     ;;
