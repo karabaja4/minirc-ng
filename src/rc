@@ -147,9 +147,6 @@ _on_shutdown() (
 
     _echo "Shutting down udev..."
     killall -v -w systemd-udevd
-
-    _echo "Unmounting API filesystem..."
-    umount -v -r /run
 )
 
 _daemon_restart() {
