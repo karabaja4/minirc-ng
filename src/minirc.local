@@ -1,6 +1,5 @@
-#!/bin/bash
+#!/bin/sh
 
 # add startup commands here
 
 echo 0 > /proc/sys/kernel/printk
-
