@@ -47,7 +47,7 @@ _daemon_start() (
             exit 1
         fi
 
-        su -s /bin/sh - "${_user}" -c "${_command} > /dev/null 2>&1 & printf '%s' \${!}" > "${_pidfile}"
+        su -s "/bin/sh" - "${_user}" -c "${_command} > /dev/null 2>&1 & printf '%s' \${!}" > "${_pidfile}"
 
         _echo "User: ${_user}"
         _echo "Exec: ${_command}"
