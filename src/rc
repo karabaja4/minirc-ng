@@ -101,13 +101,6 @@ _on_init() (
     _echo "Setting hostname..."
     cat /etc/hostname >| /proc/sys/kernel/hostname
 
-    _echo "Creating symlinks..."
-    ln -s /proc/kcore /dev/core
-    ln -s /proc/self/fd /dev/fd
-    ln -s /proc/self/fd/0 /dev/stdin
-    ln -s /proc/self/fd/1 /dev/stdout
-    ln -s /proc/self/fd/2 /dev/stderr
-
     _echo "Creating PID dir..."
     install -m 755 -o root -g root -d "${_piddir}"
 
