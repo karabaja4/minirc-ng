@@ -13,15 +13,15 @@ _config="/etc/minirc.json"
 
 # load config
 _get_all_daemons() {
-    jq -crM '.[] | .name' ${_config}
+    jq -crM '.[] | .name' "${_config}"
 }
 
 _get_enabled_daemons() {
-    jq -crM '.[] | select(.enabled==true) | .name' ${_config}
+    jq -crM '.[] | select(.enabled==true) | .name' "${_config}"
 }
 
 _get_field() {
-    jq -crM --arg name "${1}" ".[] | select(.name==\$name) | .${2}" ${_config}
+    jq -crM --arg name "${1}" ".[] | select(.name==\$name) | .${2}" "${_config}"
 }
 
 # ${1} -> service
