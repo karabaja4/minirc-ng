@@ -1,5 +1,7 @@
 #!/bin/sh
 set -u
+IFS='
+'
 
 _echo() {
     printf '%s\n' "${1}"
