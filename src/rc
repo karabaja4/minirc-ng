@@ -186,7 +186,7 @@ start|stop|restart)
     [ "$(id -u)" -ne 0 ] && _not_root
     _daemon_"${1}" "${2}"
     ;;
-list)
+list|l)
     [ "${#}" -ne 1 ] && _usage
     for _dmn in $(_get_all_daemons)
     do
