@@ -161,7 +161,7 @@ _usage() {
     _echo "Usage: rc [--help] <action> [daemon]"
     _echo ""
     _echo "Actions:"
-    _echo "   rc list              shows status of all daemons"
+    _echo "   rc l[ist]            shows status of all daemons"
     _echo "   rc start [daemon]    starts daemon"
     _echo "   rc stop [daemon]     stops daemon"
     _echo "   rc restart [daemon]  restarts daemon"
