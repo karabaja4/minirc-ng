@@ -8,22 +8,21 @@ _echo() {
 }
 
 _echo "minirc-ng"
-_echo "${0} @ $(readlink /proc/$$/exe)"
 
 _piddir="/run/minirc"
 _config="/etc/minirc.json"
 
 # load config
 _get_all_daemons() {
-    jq -crM '.[] | .name' "${_config}"
+    /usr/bin/jq -crM '.[] | .name' "${_config}"
 }
 
 _get_enabled_daemons() {
-    jq -crM '.[] | select(.enabled==true) | .name' "${_config}"
+    /usr/bin/jq -crM '.[] | select(.enabled==true) | .name' "${_config}"
 }
 
 _get_field() {
-    jq -crM --arg name "${1}" ".[] | select(.name==\$name) | .${2}" "${_config}"
+    /usr/bin/jq -crM --arg name "${1}" ".[] | select(.name==\$name) | .${2}" "${_config}"
 }
 
 # ${1} -> service
@@ -49,11 +48,11 @@ _daemon_start() (
             exit 1
         fi
 
-        su -s "/bin/sh" - "${_user}" -c "${_command} > /dev/null 2>&1 & printf '%s' \${!}" > "${_pidfile}"
+        /usr/bin/su -s "/bin/sh" - "${_user}" -c "${_command} > /dev/null 2>&1 & printf '%s' \${!}" > "${_pidfile}"
 
         _echo "User: ${_user}"
         _echo "Exec: ${_command}"
-        _echo "PID: $(cat "${_pidfile}")"
+        _echo "PID: $(/usr/bin/cat "${_pidfile}")"
     fi
 )
 
@@ -64,10 +63,10 @@ _daemon_stop() (
 
     if _daemon_poll "${1}"
     then
-        _pid="$(cat "${_pidfile}")"
+        _pid="$(/usr/bin/cat "${_pidfile}")"
         /usr/bin/kill --verbose --signal TERM --timeout 10000 KILL "${_pid}"
         _echo "Killed ${_pid}."
-        rm -rf "${_pidfile}"
+        /usr/bin/rm -rf "${_pidfile}"
     else
         _echo "Error: ${_pidfile} does not exist or service is not running"
     fi
@@ -76,20 +75,20 @@ _daemon_stop() (
 _daemon_poll() (
     _pidfile="${_piddir}/${1}.pid"
     # if pidfile exists and pid from pidfile is running
-    [ -f "${_pidfile}" ] && [ -h "/proc/$(cat "${_pidfile}")/exe" ]
+    [ -f "${_pidfile}" ] && [ -h "/proc/$(/usr/bin/cat "${_pidfile}")/exe" ]
 )
 
 _on_init() (
 
     _echo "Mounting API filesystem..."
-    mountpoint -q /proc    || mount -t proc proc /proc -o nosuid,noexec,nodev
-    mountpoint -q /sys     || mount -t sysfs sys /sys -o nosuid,noexec,nodev
-    mountpoint -q /run     || mount -t tmpfs run /run -o mode=0755,nosuid,nodev
-    mountpoint -q /tmp     || mount -t tmpfs tmp /tmp -o mode=1777,nosuid,nodev
-    mountpoint -q /dev     || mount -t devtmpfs dev /dev -o mode=0755,nosuid
-    mkdir -p /dev/pts /dev/shm
-    mountpoint -q /dev/pts || mount -t devpts devpts /dev/pts -o mode=0620,gid=5,nosuid,noexec
-    mountpoint -q /dev/shm || mount -t tmpfs shm /dev/shm -o mode=1777,nosuid,nodev
+    /usr/bin/mountpoint -q /proc    || /usr/bin/mount -t proc proc /proc -o nosuid,noexec,nodev
+    /usr/bin/mountpoint -q /sys     || /usr/bin/mount -t sysfs sys /sys -o nosuid,noexec,nodev
+    /usr/bin/mountpoint -q /run     || /usr/bin/mount -t tmpfs run /run -o mode=0755,nosuid,nodev
+    /usr/bin/mountpoint -q /tmp     || /usr/bin/mount -t tmpfs tmp /tmp -o mode=1777,nosuid,nodev
+    /usr/bin/mountpoint -q /dev     || /usr/bin/mount -t devtmpfs dev /dev -o mode=0755,nosuid
+    /usr/bin/mkdir -p /dev/pts /dev/shm
+    /usr/bin/mountpoint -q /dev/pts || /usr/bin/mount -t devpts devpts /dev/pts -o mode=0620,gid=5,nosuid,noexec
+    /usr/bin/mountpoint -q /dev/shm || /usr/bin/mount -t tmpfs shm /dev/shm -o mode=1777,nosuid,nodev
 
     _echo "Setting up loopback device..."
     /usr/sbin/ip link set up dev lo
@@ -101,26 +100,26 @@ _on_init() (
     /usr/bin/udevadm settle
 
     _echo "Setting hostname..."
-    cat /etc/hostname >| /proc/sys/kernel/hostname
+    /usr/bin/cat /etc/hostname >| /proc/sys/kernel/hostname
 
     _echo "Creating symlinks..."
-    ln -s /proc/kcore /dev/core 2>/dev/null
-    ln -s /proc/self/fd /dev/fd 2>/dev/null
-    ln -s /proc/self/fd/0 /dev/stdin 2>/dev/null
-    ln -s /proc/self/fd/1 /dev/stdout 2>/dev/null
-    ln -s /proc/self/fd/2 /dev/stderr 2>/dev/null
+    /usr/bin/ln -s /proc/kcore /dev/core 2>/dev/null
+    /usr/bin/ln -s /proc/self/fd /dev/fd 2>/dev/null
+    /usr/bin/ln -s /proc/self/fd/0 /dev/stdin 2>/dev/null
+    /usr/bin/ln -s /proc/self/fd/1 /dev/stdout 2>/dev/null
+    /usr/bin/ln -s /proc/self/fd/2 /dev/stderr 2>/dev/null
 
     _echo "Creating PID dir..."
-    install -m 755 -o root -g root -d "${_piddir}"
+    /usr/bin/install -m 755 -o root -g root -d "${_piddir}"
 
     _echo "Mounting fstab..."
-    mount -a
-    mount -o remount,rw /
+    /usr/bin/mount -a
+    /usr/bin/mount -o remount,rw /
 
     _echo "Creating utmp..."
-    install -m 664 -o root -g utmp /dev/null /var/run/utmp
+    /usr/bin/install -m 664 -o root -g utmp /dev/null /var/run/utmp
 
-    if [ -x /etc/minirc.local ]
+    if [ -x "/etc/minirc.local" ]
     then
         _echo "Loading /etc/minirc.local..."
         /etc/minirc.local
@@ -141,19 +140,19 @@ _on_shutdown() (
         _daemon_poll "${_dmn}" && _daemon_stop "${_dmn}"
     done
 
-    if [ -x /etc/minirc.local.shutdown ]
+    if [ -x "/etc/minirc.local.shutdown" ]
     then
         _echo "Loading /etc/minirc.local.shutdown..."
         /etc/minirc.local.shutdown
     fi
 
     _echo "Shutting down udev..."
-    killall -v -w systemd-udevd
+    /usr/bin/killall -v -w systemd-udevd
 )
 
 _daemon_restart() {
     _daemon_stop "${1}"
-    sleep 1
+    /usr/bin/sleep 1
     _daemon_start "${1}"
 }
 
@@ -178,12 +177,12 @@ _not_root() {
 case "${1}" in
 init|shutdown)
     [ "${#}" -ne 1 ] && _usage
-    [ "$(id -u)" -ne 0 ] && _not_root
+    [ "$(/usr/bin/id -u)" -ne 0 ] && _not_root
     _on_"${1}"
     ;;
 start|stop|restart)
     [ "${#}" -ne 2 ] && _usage
-    [ "$(id -u)" -ne 0 ] && _not_root
+    [ "$(/usr/bin/id -u)" -ne 0 ] && _not_root
     _daemon_"${1}" "${2}"
     ;;
 list|l)
