@@ -20,7 +20,7 @@ tty4::respawn:/sbin/agetty -8 -s 38400 tty4 linux
 # Killing everything on shutdown
 ::shutdown:echo :: sending SIGTERM to all
 ::shutdown:/bin/busybox kill -TERM -1
-::shutdown:sleep 1
+::shutdown:sleep 3
 ::shutdown:echo :: sending SIGKILL to all
 ::shutdown:/bin/busybox kill -KILL -1
 ::shutdown:sleep 3
