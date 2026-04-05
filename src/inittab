@@ -20,10 +20,10 @@ tty4::respawn:/sbin/agetty -8 -s 38400 tty4 linux
 # Killing everything on shutdown
 ::shutdown:echo :: sending SIGTERM to all
 ::shutdown:/bin/busybox kill -TERM -1
-::shutdown:/bin/busybox sh -c 'trap "" TERM; /bin/busybox sleep 3; /bin/busybox pstree -p'
+::shutdown:/bin/busybox sh -c 'trap "" TERM; /bin/sleep 3; /bin/pstree -p'
 ::shutdown:echo :: sending SIGKILL to all
 ::shutdown:/bin/busybox kill -KILL -1
-::shutdown:/bin/busybox sh -c '/bin/busybox sleep 3; /bin/busybox pstree -p'
+::shutdown:/bin/busybox sh -c '/bin/sleep 3; /bin/pstree -p'
 
 # Unmount everything on shutdown
 ::shutdown:echo :: unmounting everything
