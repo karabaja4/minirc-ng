@@ -31,12 +31,13 @@ _check_all_killed() {
 
         if [ "${_pid}" != "1" ] && [ "${_pid}" != "${$}" ]
         then
+            _cmdline="$( { tr '\0' ' ' < "${_d}/cmdline"; } 2>/dev/null )"
+            [ -n "${_cmdline}" ] || continue
             if [ "${_found}" -eq 0 ]
             then
                 printf 'Not killed after %s:\n' "${_action}"
                 _found=1
             fi
-            _cmdline="$(tr '\0' ' ' < "${_d}/cmdline" 2>/dev/null)"
             printf '%s %s\n' "${_pid}" "${_cmdline}"
         fi
     done
