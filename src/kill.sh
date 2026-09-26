@@ -23,7 +23,7 @@ _kill() {
 }
 
 _check_all_killed() {
-    _not_killed=''
+    _found=0
     for _d in /proc/[0-9]*
     do
         [ -e "${_d}/exe" ] || continue
@@ -31,16 +31,16 @@ _check_all_killed() {
 
         if [ "${_pid}" != "1" ] && [ "${_pid}" != "${$}" ]
         then
+            if [ "${_found}" -eq 0 ]
+            then
+                printf 'Not killed after %s:\n' "${_action}"
+                _found=1
+            fi
             _cmdline="$(tr '\0' ' ' < "${_d}/cmdline" 2>/dev/null)"
-            _not_killed="$(printf '%s%s %s\n' "${_not_killed}" "${_pid}" "${_cmdline}")"
+            printf '%s %s\n' "${_pid}" "${_cmdline}"
         fi
     done
-    if [ -n "${_not_killed}" ]
-    then
-        printf 'Not killed after %s:\n%s' "${_action}" "${_not_killed}"
-        return 1
-    fi
-    return 0
+    return ${_found}
 }
 
 if [ "${_action}" = 'TERM' ]
