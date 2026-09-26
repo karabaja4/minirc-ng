@@ -22,6 +22,27 @@ _kill() {
     /bin/busybox kill "-${1}" -1
 }
 
+_check_all_killed() {
+    _not_killed=''
+    for _d in /proc/[0-9]*
+    do
+        [ -e "${_d}/exe" ] || continue
+        _pid="${_d#/proc/}"
+
+        if [ "${_pid}" != "1" ] && [ "${_pid}" != "${$}" ]
+        then
+            _cmdline="$(tr '\0' ' ' < "${_d}/cmdline" 2>/dev/null)"
+            _not_killed="$(printf '%s%s %s\n' "${_not_killed}" "${_pid}" "${_cmdline}")"
+        fi
+    done
+    if [ -n "${_not_killed}" ]
+    then
+        printf 'Not killed after %s:\n%s' "${_action}" "${_not_killed}"
+        return 1
+    fi
+    return 0
+}
+
 if [ "${_action}" = 'TERM' ]
 then
     rm -f "${_kill_file}"
@@ -30,25 +51,15 @@ then
 fi
 
 sleep 3
-_out="$(pstree -p)"
 
-_lc="$(printf '%s' "${_out}" | grep -c -v '^[[:space:]]*$')"
-if [ "${_lc}" -eq 1 ]
-then
-    _echo "After ${_action}: ${_out}"
-else
-    _echo "After ${_action}:"
-    printf '%s\n' "${_out}"
-fi
-
-if printf '%s' "${_out}" | grep -q '^init([0-9][0-9]*)---sh([0-9][0-9]*)---pstree([0-9][0-9]*)$'
+if _check_all_killed
 then
     _echo "All processes exited after ${_action}"
 else
     _echo "Failed to ${_action} all processes"
     if [ "${_action}" = 'TERM' ]
     then
-        printf '%s\n' "${_out}" > "${_kill_file}"
+        touch "${_kill_file}"
         _kill KILL
     fi
 fi
