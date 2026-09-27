@@ -38,7 +38,7 @@ _check_all_killed() {
                 _echo "Not killed after ${_action}:"
                 _found=1
             fi
-            printf '(%s) %s\n' "${_pid}" "${_cmdline}"
+            _echo "- ${_pid} ${_cmdline}"
         fi
     done
     return ${_found}
@@ -55,7 +55,7 @@ sleep 3
 
 if _check_all_killed
 then
-    _echo "All processes exited after ${_action}"
+    _echo "All processes exited on ${_action}"
 else
     _echo "Failed to ${_action} all processes"
     if [ "${_action}" = 'TERM' ]
