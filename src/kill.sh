@@ -35,10 +35,10 @@ _check_all_killed() {
             [ -n "${_cmdline}" ] || continue
             if [ "${_found}" -eq 0 ]
             then
-                printf 'Not killed after %s:\n' "${_action}"
+                _echo "Not killed after ${_action}:"
                 _found=1
             fi
-            printf '%s %s\n' "${_pid}" "${_cmdline}"
+            printf '(%s) %s\n' "${_pid}" "${_cmdline}"
         fi
     done
     return ${_found}
