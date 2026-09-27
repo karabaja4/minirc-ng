@@ -18,7 +18,7 @@ _echo() {
 }
 
 _kill() {
-    _echo "Sending ${1} to all"
+    _echo "Sending ${1} to all processes"
     /bin/busybox kill "-${1}" -1
 }
 
@@ -38,7 +38,7 @@ _check_all_killed() {
                 _echo "Not killed after ${_action}:"
                 _found=1
             fi
-            _echo "- ${_pid} ${_cmdline}"
+            _echo "-> ${_pid} ${_cmdline}"
         fi
     done
     return ${_found}
